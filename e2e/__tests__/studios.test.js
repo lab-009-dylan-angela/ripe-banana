@@ -34,14 +34,23 @@ describe('studios api', () => {
       });
   });
 
-  // it('gets studio by id', () => {
-  //   return postStudio(data)
-  //     .then(studio => {
-  //       return request.get(`/api/studios/${studio._id}`)
-  //         .expect(200)
-  //         .then(({ body }) => {
-  //           expect(body).toEqual(studio);
-  //         });
-  //     });
-  // });
+  it('gets studio by id', () => {
+    return postStudio(data)
+      .then(studio => {
+        return request.get(`/api/studios/${studio._id}`)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body).toEqual(studio);
+          });
+      });
+  });
+
+  it('deletes a studio', () => {
+    return postStudio(data)
+      .then(studio => {
+        return request
+          .delete(`/api/studios/${studio._id}`)
+          .expect(200);
+      });
+  });
 });
