@@ -23,7 +23,8 @@
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "prettier": "^1.18.2"
   },
   "devDependencies": {
     "eslint": "^6.4.0",
