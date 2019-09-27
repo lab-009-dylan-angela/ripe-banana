@@ -1,5 +1,7 @@
 const request = require('../request');
 const db = require('../db');
+const Film = require('../../lib/models/film');
+const mongoose = require('mongoose');
 
 describe('actors api', () => {
   beforeEach(() => {
@@ -45,9 +47,20 @@ describe('actors api', () => {
   it('deletes a actor', () => {
     return postActor(data)
       .then(actor => {
-        return request
-          .delete(`/api/actors/${actor._id}`)
-          .expect(200);
+        Film.create({
+          title: 'Beetlejuice',
+          studio: new mongoose.Types.ObjectId,
+          released: 1988,
+          cast: [{
+            role: 'Lydia Deetz',
+            actor: actor._id
+          }]
+        })
+          .then(() => {
+            return request
+              .delete(`/api/actors/${actor._id}`)
+              .expect(200);
+          });
       });
   });
 });

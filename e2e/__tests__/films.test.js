@@ -49,7 +49,21 @@ describe('films api', () => {
         return request.get(`/api/films/${film._id}`)
           .expect(200)
           .then(({ body }) => {
-            expect(body).toEqual(film);
+            expect(body).toMatchInlineSnapshot(
+              {
+                _id: expect.any(String),
+                studio: [
+                  {
+                    _id: expect.any(String)
+                  }
+                ],
+                cast.actor: [
+                  {
+                    _id: expect.any(String)
+                  }
+                ]
+              },
+            );
           });
       });
   });
