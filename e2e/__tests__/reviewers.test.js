@@ -41,6 +41,20 @@ describe('reviewers api', () => {
       });
   });
 
+  it('updates a reviewer by id', ()=> {
+    return postReviewer(data)
+      .then(reviewer => {
+        reviewer.name = 'Roger Ebert';
+        return request
+          .put(`/api/reviewers/${reviewer._id}`)
+          .send(reviewer)
+          .expect(200);
+      })
+      .then(({ body }) => {
+        expect(body.name).toBe('Roger Ebert');
+      });
+  });
+
   it('deletes a reviewer', () => {
     return postReviewer(data)
       .then(reviewer => {
