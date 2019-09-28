@@ -2,6 +2,37 @@ const request = require('../request');
 const db = require('../db');
 const mongoose = require('mongoose');
 
+const reviewer1 = {
+  name: 'Gene Shalit',
+  company: 'NBC'
+};
+
+function postReviewer(reviewer) {
+  return request
+    .post('/api/reviewers')
+    .send(reviewer)
+    .expect(200)
+    .then(({ body }) => body);
+}
+
+const film1 = {
+  title: 'Beetlejuice',
+  studio: new mongoose.Types.ObjectId,
+  released: 1988,
+  cast: [{
+    role: 'Lydia Deetz',
+    actor: new mongoose.Types.ObjectId
+  }]
+};
+
+function postFilm(film) {
+  return request
+    .post('/api/films')
+    .send(film)
+    .expect(200)
+    .then(({ body }) => body);
+}
+
 describe('reviews api', () => {
   beforeEach(() => {
     return db.dropCollection('reviews');
@@ -37,14 +68,30 @@ describe('reviews api', () => {
   });
 
   it('gets review by id', () => {
-    return postReview(data)
-      .then(review => {
-        return request.get(`/api/reviews/${review._id}`)
-          .expect(200)
-          .then(({ body }) => {
-            expect(body).toEqual(review);
+    return postReviewer(reviewer1).then(postedReviewer => {
+      data.reviewer = postedReviewer._id;
+      return postFilm(film1).then(postedFilm => {
+        data.film = postedFilm._id;
+        return postReview(data)
+          .then(review => {
+            return request.get(`/api/reviews/${review._id}`)
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).toMatchInLineSnapshop(
+                  {
+                    _id: expect.any(String),
+                    reviewer: {
+                      _id: expect.any(String)
+                    },
+                    film: {
+                      _id: expect.any(String)
+                    }
+                  },
+                );
+              });
           });
       });
+    });
   });
 
   it('deletes a review', () => {
