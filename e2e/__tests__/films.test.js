@@ -79,7 +79,7 @@ describe('films api', () => {
 
   it('gets film by id', () => {
     return postActor(actor1).then(postedActor => {
-      data.cast[1].actor = postedActor._id;
+      data.cast[0].actor = postedActor._id;
       return postStudio(studio1).then(postedStudio => {
         data.studio = postedStudio._id;
         return postFilm(data).then(film => {
