@@ -96,7 +96,8 @@ describe('films api', () => {
                   },
                   cast: [
                     {
-                      _id: expect.any(String)
+                      _id: expect.any(String),
+                      actor: { _id: expect.any(String) }
                     }
                   ]
                 },
@@ -108,7 +109,7 @@ describe('films api', () => {
                     Object {
                       "_id": Any<String>,
                       "actor": Object {
-                        "_id": "5d923946caaf1e38e49b2933",
+                        "_id": Any<String>,
                         "name": "Winona Ryder",
                       },
                       "role": "Lydia Deetz",
